@@ -1,8 +1,11 @@
 package com.asps.auth.clientesauth.core.security;
 
+import com.asps.auth.clientesauth.config.AppConfig;
+import com.asps.auth.clientesauth.config.JwtAccessTokenProperties;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.redis.connection.RedisConnectionFactory;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -13,8 +16,8 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Aut
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.CompositeTokenGranter;
 import org.springframework.security.oauth2.provider.TokenGranter;
-import org.springframework.security.oauth2.provider.token.TokenStore;
-import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
+import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
+import org.springframework.security.oauth2.provider.token.store.KeyStoreKeyFactory;
 
 import java.util.Arrays;
 
@@ -29,7 +32,9 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 
     private final UserDetailsService userDetailsService;
 
-    private final RedisConnectionFactory redisConnectionFactory;
+    private final AppConfig appConfig;
+
+    private final JwtAccessTokenProperties jwtAccessTokenProperties;
 
     /**
      * Essa configuração é utilizada personalizar a aplicação cliente do Authorization Server
@@ -85,16 +90,26 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
                 .userDetailsService(userDetailsService)
                 .tokenGranter(tokenGranter(endpoints))
                 .reuseRefreshTokens(false)
-                .tokenStore(redisTokenStore());
-    }
-
-    private TokenStore redisTokenStore(){
-        return new RedisTokenStore(redisConnectionFactory);
+                .accessTokenConverter(jwtAccessTokenConverter());
     }
 
     @Override
     public void configure(AuthorizationServerSecurityConfigurer security) {
-        security.checkTokenAccess("isAuthenticated()");
+        security.checkTokenAccess("isAuthenticated()")
+                .tokenKeyAccess("permitAll()");
+    }
+
+    @Bean
+    public JwtAccessTokenConverter jwtAccessTokenConverter(){
+        final var jwtAccessTokenConverter = new JwtAccessTokenConverter();
+//        jwtAccessTokenConverter.setSigningKey(appConfig.getSigningKey());
+
+        final var jksResource = new ClassPathResource(jwtAccessTokenProperties.getPath());
+        final var keyStoreKeyFactory = new KeyStoreKeyFactory(jksResource, jwtAccessTokenProperties.getPassword().toCharArray());
+        final var keyPair = keyStoreKeyFactory.getKeyPair(jwtAccessTokenProperties.getAlias());
+        jwtAccessTokenConverter.setKeyPair(keyPair);
+
+        return jwtAccessTokenConverter;
     }
 
     private TokenGranter tokenGranter(AuthorizationServerEndpointsConfigurer endpoints) {
