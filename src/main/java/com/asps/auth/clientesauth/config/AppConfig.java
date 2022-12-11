@@ -16,4 +16,13 @@ public class AppConfig {
 
     @Value("${TENANT_ID}")
     private String tenantId;
+
+    @Value("${USERNAME}")
+    private String username;
+
+    @Value("${password}")
+    private String password;
+
+    @Value("${url}")
+    private String url;
 }

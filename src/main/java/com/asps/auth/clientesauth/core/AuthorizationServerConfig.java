@@ -1,4 +1,4 @@
-package com.asps.auth.clientesauth.core.security;
+package com.asps.auth.clientesauth.core;
 
 import com.asps.auth.clientesauth.config.AppConfig;
 import com.asps.auth.clientesauth.config.JwtAccessTokenProperties;
@@ -16,6 +16,7 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Aut
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.CompositeTokenGranter;
 import org.springframework.security.oauth2.provider.TokenGranter;
+import org.springframework.security.oauth2.provider.approval.TokenApprovalStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.store.KeyStoreKeyFactory;
 
@@ -90,7 +91,14 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
                 .userDetailsService(userDetailsService)
                 .tokenGranter(tokenGranter(endpoints))
                 .reuseRefreshTokens(false)
-                .accessTokenConverter(jwtAccessTokenConverter());
+                .accessTokenConverter(jwtAccessTokenConverter())
+                .approvalStore(getTokenApprovalStore(endpoints));
+    }
+
+    private static TokenApprovalStore getTokenApprovalStore(AuthorizationServerEndpointsConfigurer endpoints) {
+        final var approvalStore = new TokenApprovalStore();
+        approvalStore.setTokenStore(endpoints.getTokenStore());
+        return approvalStore;
     }
 
     @Override
