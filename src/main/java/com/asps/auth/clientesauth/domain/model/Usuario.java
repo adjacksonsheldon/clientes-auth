@@ -1,15 +1,13 @@
 package com.asps.auth.clientesauth.domain.model;
 
-import lombok.*;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
 
 import javax.persistence.*;
 
 @Getter
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity(name = "usuarios")
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
 public class Usuario {
 
     @EqualsAndHashCode.Include
