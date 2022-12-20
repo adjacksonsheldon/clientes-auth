@@ -14,7 +14,7 @@
 	<name>clientes-auth</name>
 	<description>Authorization server with Spring</description>
 	<properties>
-		<java.version>11</java.version>
+		<java.version>17</java.version>
 		<spring-security-oauth2.version>2.3.7.RELEASE</spring-security-oauth2.version>
 		<org.projectlombok.version>1.18.24</org.projectlombok.version>
 		<spring-security-jwt.version>1.0.11.RELEASE</spring-security-jwt.version>

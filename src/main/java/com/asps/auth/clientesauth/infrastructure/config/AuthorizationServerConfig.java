@@ -1,11 +1,12 @@
-package com.asps.auth.clientesauth.core;
+package com.asps.auth.clientesauth.infrastructure.config;
 
-import com.asps.auth.clientesauth.config.AppConfig;
-import com.asps.auth.clientesauth.config.JwtAccessTokenProperties;
+import com.asps.auth.clientesauth.domain.properties.JwtAccessTokenProperties;
+import com.asps.auth.clientesauth.infrastructure.security.JwtCustomClaimsTokenEnhancer;
+import com.asps.auth.clientesauth.infrastructure.security.PkceAuthorizationCodeTokenGranter;
+import com.azure.security.keyvault.keys.cryptography.CryptographyClient;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -19,7 +20,6 @@ import org.springframework.security.oauth2.provider.TokenGranter;
 import org.springframework.security.oauth2.provider.approval.TokenApprovalStore;
 import org.springframework.security.oauth2.provider.token.TokenEnhancerChain;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
-import org.springframework.security.oauth2.provider.token.store.KeyStoreKeyFactory;
 
 import java.util.Arrays;
 import java.util.List;
@@ -35,9 +35,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 
     private final UserDetailsService userDetailsService;
 
-    private final AppConfig appConfig;
-
-    private final JwtAccessTokenProperties jwtAccessTokenProperties;
+    private final SignerWithAzure signer;
 
     /**
      * Essa configuração é utilizada personalizar a aplicação cliente do Authorization Server
@@ -117,13 +115,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     @Bean
     public JwtAccessTokenConverter jwtAccessTokenConverter(){
         final var jwtAccessTokenConverter = new JwtAccessTokenConverter();
-//        jwtAccessTokenConverter.setSigningKey(appConfig.getSigningKey());
-
-        final var jksResource = new ClassPathResource(jwtAccessTokenProperties.getPath());
-        final var keyStoreKeyFactory = new KeyStoreKeyFactory(jksResource, jwtAccessTokenProperties.getPassword().toCharArray());
-        final var keyPair = keyStoreKeyFactory.getKeyPair(jwtAccessTokenProperties.getAlias());
-        jwtAccessTokenConverter.setKeyPair(keyPair);
-
+        jwtAccessTokenConverter.setSigner(signer);
         return jwtAccessTokenConverter;
     }
 

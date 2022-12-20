@@ -1,4 +1,4 @@
-package com.asps.auth.clientesauth.config;
+package com.asps.auth.clientesauth.domain.properties;
 
 import lombok.Getter;
 import lombok.Setter;

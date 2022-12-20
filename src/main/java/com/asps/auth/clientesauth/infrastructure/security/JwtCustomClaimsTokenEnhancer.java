@@ -1,5 +1,6 @@
-package com.asps.auth.clientesauth.core;
+package com.asps.auth.clientesauth.infrastructure.security;
 
+import com.asps.auth.clientesauth.infrastructure.model.AuthUser;
 import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;

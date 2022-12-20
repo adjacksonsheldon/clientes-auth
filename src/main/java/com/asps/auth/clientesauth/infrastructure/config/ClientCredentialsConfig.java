@@ -1,5 +1,6 @@
-package com.asps.auth.clientesauth.config;
+package com.asps.auth.clientesauth.infrastructure.config;
 
+import com.asps.auth.clientesauth.infrastructure.properties.KeyVaultProperties;
 import com.azure.identity.ClientSecretCredential;
 import com.azure.identity.ClientSecretCredentialBuilder;
 import lombok.RequiredArgsConstructor;
@@ -10,14 +11,14 @@ import org.springframework.context.annotation.Configuration;
 @RequiredArgsConstructor
 public class ClientCredentialsConfig {
 
-    private final AppConfig appConfig;
+    private final KeyVaultProperties keyVaultProperties;
 
     @Bean
     public ClientSecretCredential getCredentials() {
         ClientSecretCredential secondServicePrincipal = new ClientSecretCredentialBuilder()
-                .clientId(appConfig.getClientId())
-                .clientSecret(appConfig.getClientSecret())
-                .tenantId(appConfig.getTenantId())
+                .clientId(keyVaultProperties.getClientId())
+                .clientSecret(keyVaultProperties.getClientSecret())
+                .tenantId(keyVaultProperties.getTenantId())
                 .build();
 
         return secondServicePrincipal;
