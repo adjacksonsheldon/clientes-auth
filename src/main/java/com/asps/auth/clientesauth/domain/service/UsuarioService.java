@@ -20,7 +20,7 @@ public class UsuarioService {
 
     public Set<String> consultarPermissoes(String usuarioId){
 
-        final Set permissoes = new HashSet<>();
+        final var permissoes = new HashSet<String>();
 
         final var grupos = usuarioGrupoRepository.findByUsuarioId(usuarioId)
                 .stream()
@@ -30,7 +30,7 @@ public class UsuarioService {
         grupos.stream()
                 .map(id -> getGrupoPermissoes(id))
                 .collect(Collectors.toSet())
-                .forEach(p -> permissoes.addAll(p));
+                .forEach(permissoes::addAll);
 
         return permissoes;
     }
