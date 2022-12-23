@@ -1,4 +1,4 @@
-package com.asps.auth.clientesauth.infrastructure.config;
+package com.asps.auth.clientesauth.domain.security.token;
 
 import com.azure.security.keyvault.keys.cryptography.CryptographyClient;
 import com.azure.security.keyvault.keys.cryptography.models.SignResult;

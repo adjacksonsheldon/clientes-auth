@@ -1,4 +1,4 @@
-package com.asps.auth.clientesauth.infrastructure.security;
+package com.asps.auth.clientesauth.domain.security.service;
 
 import com.asps.auth.clientesauth.domain.model.Usuario;
 import com.asps.auth.clientesauth.domain.repository.UsuarioRepository;

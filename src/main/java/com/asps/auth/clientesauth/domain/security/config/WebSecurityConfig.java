@@ -1,4 +1,4 @@
-package com.asps.auth.clientesauth.infrastructure.config;
+package com.asps.auth.clientesauth.domain.security.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

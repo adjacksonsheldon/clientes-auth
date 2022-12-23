@@ -1,4 +1,4 @@
-package com.asps.auth.clientesauth.infrastructure.security;
+package com.asps.auth.clientesauth.domain.security.token;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;

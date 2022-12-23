@@ -1,4 +1,4 @@
-package com.asps.auth.clientesauth.infrastructure.config;
+package com.asps.auth.clientesauth.domain.security.config;
 
 import com.asps.auth.clientesauth.infrastructure.properties.KeyVaultProperties;
 import com.azure.identity.ClientSecretCredential;

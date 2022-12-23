@@ -1,9 +1,8 @@
-package com.asps.auth.clientesauth.infrastructure.config;
+package com.asps.auth.clientesauth.domain.security.config;
 
-import com.asps.auth.clientesauth.domain.properties.JwtAccessTokenProperties;
-import com.asps.auth.clientesauth.infrastructure.security.JwtCustomClaimsTokenEnhancer;
-import com.asps.auth.clientesauth.infrastructure.security.PkceAuthorizationCodeTokenGranter;
-import com.azure.security.keyvault.keys.cryptography.CryptographyClient;
+import com.asps.auth.clientesauth.domain.security.token.JwtCustomClaimsTokenEnhancer;
+import com.asps.auth.clientesauth.domain.security.token.PkceAuthorizationCodeTokenGranter;
+import com.asps.auth.clientesauth.domain.security.token.SignerWithAzure;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
