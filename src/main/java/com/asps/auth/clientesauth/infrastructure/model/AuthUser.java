@@ -9,7 +9,7 @@ import java.util.Collection;
 @Getter
 public class AuthUser extends User {
 
-    private Long usuarioId;
+    private String usuarioId;
     private String fullName;
 
     public AuthUser(Usuario usuario, Collection authorities) {

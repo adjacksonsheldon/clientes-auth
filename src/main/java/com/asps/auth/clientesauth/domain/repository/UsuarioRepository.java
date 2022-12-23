@@ -1,13 +1,8 @@
 package com.asps.auth.clientesauth.domain.repository;
 
 import com.asps.auth.clientesauth.domain.model.Usuario;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
+import org.springframework.data.mongodb.repository.MongoRepository;
 
-import java.util.Optional;
-
-@Repository
-public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
-
-    Optional<Usuario> findByEmail(String email);
+public interface UsuarioRepository extends MongoRepository<Usuario, String> {
+    Usuario findByEmail(String email);
 }

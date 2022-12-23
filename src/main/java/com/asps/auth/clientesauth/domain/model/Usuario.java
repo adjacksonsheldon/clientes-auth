@@ -1,32 +1,24 @@
 package com.asps.auth.clientesauth.domain.model;
 
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
+import lombok.*;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.UUID;
 
 @Getter
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)
-@Entity(name = "usuarios")
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+@Document(collection = "usuarios")
 public class Usuario {
 
-    @EqualsAndHashCode.Include
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    @Column
+    @Builder.Default
+    private String id = UUID.randomUUID().toString();
+    private String cpf;
     private String nome;
-
-    @Column
     private String email;
-
-    @Column
     private String senha;
-
-    @ManyToMany
-    @JoinTable(name = "usuarios_grupos", joinColumns = @JoinColumn(name = "usuario_id"), inverseJoinColumns = @JoinColumn(name = "grupo_id"))
-    private Set<Grupo> grupos = new HashSet<>();
 }
