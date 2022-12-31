@@ -9,7 +9,9 @@ import org.springframework.stereotype.Service;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.toList;
+import static java.util.stream.Collectors.toSet;
 
 @Service
 @RequiredArgsConstructor
@@ -25,11 +27,11 @@ public class UsuarioService {
         final var grupos = usuarioGrupoRepository.findByUsuarioId(usuarioId)
                 .stream()
                 .map(usuarioGrupo -> usuarioGrupo.getGrupo().getId())
-                .collect(Collectors.toSet());
+                .collect(toSet());
 
         grupos.stream()
-                .map(id -> getGrupoPermissoes(id))
-                .collect(Collectors.toSet())
+                .map(this::getGrupoPermissoes)
+                .collect(toSet())
                 .forEach(permissoes::addAll);
 
         return permissoes;
@@ -41,6 +43,6 @@ public class UsuarioService {
         return grupoPermissoes
                 .stream()
                 .map(grupoPermissao -> grupoPermissao.getPermissao().getNome())
-                .collect(Collectors.toList());
+                .collect(toList());
     }
 }

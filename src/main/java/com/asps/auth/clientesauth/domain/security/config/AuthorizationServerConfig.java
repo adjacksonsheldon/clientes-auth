@@ -48,7 +48,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
             .withClient("clientes-front")
                 .secret(passwordEncoder.encode("123"))
                 .authorizedGrantTypes("password", "refresh_token")
-                .scopes("write", "read")
+                .scopes("WRITE", "READ")
                 .accessTokenValiditySeconds(60 * 60 * 6)
 
             .and()
@@ -59,22 +59,19 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
             .withClient("ms-clientes")
                 .secret(passwordEncoder.encode("123"))
                 .authorizedGrantTypes("client_credentials")
-                .scopes("read")
+                .scopes("READ")
 
-            // http://localhost:8081/oauth/authorize?response_type=code&client_id=clientes-spa&state=abc&redirect_uri=http://localhost:8080/clientes&code_challenge=teste123&code_challenge_method=plain
-            //http://localhost:8081/oauth/authorize?response_type=code&client_id=clientes-spa&redirect_uri=http://localhost:8080/clientes&code_challenge=_zFzot42nm_C_g93eIHuKxEfo1iRYqYk6ifxncemqXM&code_challenge_method=s256
             .and()
             .withClient("clientes-spa")
                 .secret(passwordEncoder.encode("123"))
                 .authorizedGrantTypes("authorization_code")
-                .scopes("write", "read")
+                .scopes("WRITE", "READ")
                 .redirectUris("http://localhost:8080/clientes")
 
-            // http://localhost:8081/oauth/authorize?response_type=token&client_id=clientes-spa-2&state=abc&redirect_uri=http://localhost:8080/clientes
             .and()
             .withClient("clientes-spa-2")
                 .authorizedGrantTypes("implicit")
-                .scopes("write", "read")
+                .scopes("WRITE", "READ")
                 .redirectUris("http://localhost:8080/clientes")
         ;
     }
